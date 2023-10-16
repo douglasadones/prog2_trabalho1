@@ -16,7 +16,6 @@ class Genotype {
 
   Genotype(this._possibleGenotype) {
     if (!_allGenotypes.containsKey(_possibleGenotype)) {
-      // throw 'Invalid genotype. Run Genotype.validGenotypes() to see all valid entries.';
       throw 'Bad individual genotype: $_possibleGenotype';
     } else {
       _bloodType = _toBloodTpe();
@@ -74,7 +73,7 @@ class Genotype {
 
   _toBloodTpe() => _allGenotypes[_possibleGenotype];
 
-  String get possibleGenotype => _possibleGenotype;
+  String get genotype => _possibleGenotype;
 
   String get bloodType => _bloodType;
 
@@ -84,12 +83,15 @@ class Genotype {
 
   List<String> get agglutinins => _agglutinins;
 
+  @override
+  String toString() {
+    return _possibleGenotype;
+  }
+
   List<String> offsprings(Genotype r) {
     List<String> results = [];
     var firstIndiv = _possibleGenotype.split('');
-    var secondIndiv = r.possibleGenotype.split('');
-    print(firstIndiv);
-    print(secondIndiv);
+    var secondIndiv = r.genotype.split('');
     for (var i in firstIndiv) {
       for (var a in secondIndiv) {
         String possible = i + a;
@@ -123,24 +125,15 @@ class Genotype {
 
   bool compatible(Genotype r) {
     bool status = false;
-    (_possibleGenotype == 'ii' ||
-            r._possibleGenotype == 'AB' ||
-            _possibleGenotype == r._possibleGenotype)
-        ? true
-        : false;
-
-    (r._agglutinogens.contains(_agglutinogens[0]) ||
-            _possibleGenotype == 'AB' && r._possibleGenotype == 'AB')
-        ? true
-        : false;
+    if (_possibleGenotype == 'ii' ||
+        r._possibleGenotype == 'AB' ||
+        _possibleGenotype == r._possibleGenotype) {
+      return true;
+    } else if (_possibleGenotype == 'AB' && r._possibleGenotype != 'AB') {
+      return false;
+    } else if (r._agglutinogens.contains(_agglutinogens[0])) {
+      return true;
+    }
     return status;
   }
 }
-
-// if (_possibleGenotype == 'ii' ||
-//     r._possibleGenotype == 'AB' ||
-//     _possibleGenotype == r._possibleGenotype) {
-//   status = true;
-// } else if (_possibleGenotype == 'AB' && r._possibleGenotype == 'AB') {
-//   status = true;
-// }

@@ -1,4 +1,5 @@
-import 'package:blood_types/individual.dart';
+// ignore: avoid_relative_lib_imports
+import '../lib/individual.dart';
 import 'utils.dart';
 
 void main() {
