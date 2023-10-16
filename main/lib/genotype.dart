@@ -1,4 +1,3 @@
-
 class Genotype {
   final Map<String, String> _allGenotypes = {
     'AA': 'A',
@@ -18,16 +17,16 @@ class Genotype {
   Genotype(this._possibleGenotype) {
     if (!_allGenotypes.containsKey(_possibleGenotype)) {
       // throw 'Invalid genotype. Run Genotype.validGenotypes() to see all valid entries.';
-      throw 'Invalid genotype. Please, enter a valid value.';
+      throw 'Bad individual genotype: $_possibleGenotype';
     } else {
-      _bloodType = toBloodTpe();
-      _alleles = existingAlleles();
-      _agglutinogens = allAgglutinogens();
-      _agglutinins = allAgglutinins();
+      _bloodType = _toBloodTpe();
+      _alleles = _existingAlleles();
+      _agglutinogens = _allAgglutinogens();
+      _agglutinins = _allAgglutinins();
     }
   }
 
-  List<String> existingAlleles() {
+  List<String> _existingAlleles() {
     Set<String> singleAlleleSet = {};
     var genoTypeList = _possibleGenotype.split('');
 
@@ -37,9 +36,9 @@ class Genotype {
     return singleAlleleSet.toList();
   }
 
-  List<String> allAgglutinogens() {
+  List<String> _allAgglutinogens() {
     List<String> singleAgglutinogens = [];
-    _alleles.forEach((element) {
+    _possibleGenotype.split('').forEach((element) {
       if (element != 'i') {
         singleAgglutinogens.add(element);
       }
@@ -47,19 +46,33 @@ class Genotype {
     return singleAgglutinogens;
   }
 
-  List<String> allAgglutinins() {
+  List<String> _allAgglutinins() {
     List<String> singleAgglutinins = [];
-    String agglutininsSplitSuport = 'AB';
-    if (_agglutinogens.length == 1) {
-      singleAgglutinins
-          .add(agglutininsSplitSuport.split(_agglutinogens[0]).join(''));
-    } else if (_agglutinogens.isEmpty) {
-      singleAgglutinins.addAll(agglutininsSplitSuport.split(''));
+
+    if (_alleles.length == 1) {
+      _formatingAgglutinins(_alleles, singleAgglutinins);
+    } else {
+      if (_alleles.contains('i')) {
+        _formatingAgglutinins(_alleles, singleAgglutinins);
+      }
     }
     return singleAgglutinins;
   }
 
-  toBloodTpe() => _allGenotypes[_possibleGenotype];
+  void _formatingAgglutinins(List<String> alleles, List<String> agglutinins) {
+    switch (alleles[0]) {
+      case 'A':
+        agglutinins.add('B');
+        break;
+      case 'B':
+        agglutinins.add('A');
+        break;
+      case 'i':
+        agglutinins.addAll(['A', 'B']);
+    }
+  }
+
+  _toBloodTpe() => _allGenotypes[_possibleGenotype];
 
   String get possibleGenotype => _possibleGenotype;
 
@@ -70,4 +83,64 @@ class Genotype {
   List<String> get agglutinogens => _agglutinogens;
 
   List<String> get agglutinins => _agglutinins;
+
+  List<String> offsprings(Genotype r) {
+    List<String> results = [];
+    var firstIndiv = _possibleGenotype.split('');
+    var secondIndiv = r.possibleGenotype.split('');
+    print(firstIndiv);
+    print(secondIndiv);
+    for (var i in firstIndiv) {
+      for (var a in secondIndiv) {
+        String possible = i + a;
+        if (!results.contains(possible)) {
+          results.add(possible);
+        }
+      }
+    }
+    return _formatingGenotypeList(results);
+  }
+
+  List<String> _formatingGenotypeList(List<String> r) {
+    List<String> formated = [];
+    r.forEach((element) {
+      switch (element) {
+        case 'iA':
+          formated.add('Ai');
+          break;
+        case 'iB':
+          formated.add('Bi');
+          break;
+        case 'BA':
+          formated.add('AB');
+          break;
+        default:
+          formated.add(element);
+      }
+    });
+    return formated;
+  }
+
+  bool compatible(Genotype r) {
+    bool status = false;
+    (_possibleGenotype == 'ii' ||
+            r._possibleGenotype == 'AB' ||
+            _possibleGenotype == r._possibleGenotype)
+        ? true
+        : false;
+
+    (r._agglutinogens.contains(_agglutinogens[0]) ||
+            _possibleGenotype == 'AB' && r._possibleGenotype == 'AB')
+        ? true
+        : false;
+    return status;
+  }
 }
+
+// if (_possibleGenotype == 'ii' ||
+//     r._possibleGenotype == 'AB' ||
+//     _possibleGenotype == r._possibleGenotype) {
+//   status = true;
+// } else if (_possibleGenotype == 'AB' && r._possibleGenotype == 'AB') {
+//   status = true;
+// }
