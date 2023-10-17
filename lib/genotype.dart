@@ -14,13 +14,12 @@ class Genotype {
     if (!_allGenotypes.containsKey(_possibleGenotype)) {
       throw 'Bad individual genotype: $_possibleGenotype';
     }
-    ;
   }
 
   _toBloodTpe() => _allGenotypes[_possibleGenotype];
 
   List<String> _existingAlleles() {
-    Set<String> singleAlleleSet = {};
+    var singleAlleleSet = <String>{};
     var genoTypeList = _possibleGenotype.split('');
     genoTypeList.forEach((element) {
       singleAlleleSet.add(element);
@@ -29,7 +28,7 @@ class Genotype {
   }
 
   List<String> _allAgglutinogens() {
-    List<String> singleAgglutinogens = [];
+    var singleAgglutinogens = <String>[];
     _possibleGenotype.split('').forEach((element) {
       if (element != 'i') {
         singleAgglutinogens.add(element);
@@ -39,8 +38,7 @@ class Genotype {
   }
 
   List<String> _allAgglutinins() {
-    List<String> singleAgglutinins = [];
-
+    var singleAgglutinins = <String> [];
     if (alleles.length == 1) {
       _formatingAgglutinins(alleles, singleAgglutinins);
     } else {
@@ -78,7 +76,7 @@ class Genotype {
   }
 
   List<String> offsprings(Genotype r) {
-    List<String> results = [];
+    var results = <String> [];
     var firstIndiv = _possibleGenotype.split('');
     var secondIndiv = r._possibleGenotype.split('');
     for (var i in firstIndiv) {
@@ -93,7 +91,7 @@ class Genotype {
   }
 
   List<String> _formatingGenotypeList(List<String> r) {
-    List<String> formated = [];
+    var formated = <String> [];
     r.forEach((element) {
       switch (element) {
         case 'iA':
