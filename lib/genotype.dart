@@ -129,7 +129,7 @@ class Genotype {
         r._possibleGenotype == 'AB' ||
         _possibleGenotype == r._possibleGenotype) {
       return true;
-    } else if (_possibleGenotype == 'AB' && r._possibleGenotype != 'AB') {
+    } else if (_possibleGenotype == 'AB') {
       return false;
     } else if (r._agglutinogens.contains(_agglutinogens[0])) {
       return true;
