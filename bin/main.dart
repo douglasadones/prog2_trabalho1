@@ -1,4 +1,4 @@
-import 'package:main/Individual.dart';
+import '../lib/Individual.dart';
 import 'utils.dart';
 
 void main() {
