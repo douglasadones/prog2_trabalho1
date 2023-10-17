@@ -1,5 +1,5 @@
 // ignore: avoid_relative_lib_imports
-import '../lib/individual.dart';
+import '../lib/Individual.dart';
 import 'utils.dart';
 
 void main() {
