@@ -1,5 +1,5 @@
 class Genotype {
-  final Map<String, String> _allGenotypes = {
+  final _allGenotypes = <String, String>{
     'AA': 'A',
     'Ai': 'A',
     'BB': 'B',
@@ -15,8 +15,6 @@ class Genotype {
       throw 'Bad individual genotype: $_possibleGenotype';
     }
   }
-
-  _toBloodTpe() => _allGenotypes[_possibleGenotype];
 
   List<String> _existingAlleles() {
     var singleAlleleSet = <String>{};
@@ -62,7 +60,7 @@ class Genotype {
     }
   }
 
-  String get bloodType => _toBloodTpe();
+  String get bloodType => _allGenotypes[_possibleGenotype] ?? '';
 
   List<String> get alleles => _existingAlleles();
 
