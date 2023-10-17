@@ -9,20 +9,12 @@ class Genotype {
   };
 
   final String _possibleGenotype;
-  late final String _bloodType;
-  late final List<String> _alleles;
-  late final List<String> _agglutinogens;
-  late final List<String> _agglutinins;
 
   Genotype(this._possibleGenotype) {
     if (!_allGenotypes.containsKey(_possibleGenotype)) {
       throw 'Bad individual genotype: $_possibleGenotype';
-    } else {
-      _bloodType = _toBloodTpe();
-      _alleles = _existingAlleles();
-      _agglutinogens = _allAgglutinogens();
-      _agglutinins = _allAgglutinins();
     }
+    ;
   }
 
   _toBloodTpe() => _allGenotypes[_possibleGenotype];
@@ -49,11 +41,11 @@ class Genotype {
   List<String> _allAgglutinins() {
     List<String> singleAgglutinins = [];
 
-    if (_alleles.length == 1) {
-      _formatingAgglutinins(_alleles, singleAgglutinins);
+    if (alleles.length == 1) {
+      _formatingAgglutinins(alleles, singleAgglutinins);
     } else {
-      if (_alleles.contains('i')) {
-        _formatingAgglutinins(_alleles, singleAgglutinins);
+      if (alleles.contains('i')) {
+        _formatingAgglutinins(alleles, singleAgglutinins);
       }
     }
     return singleAgglutinins;
@@ -72,13 +64,13 @@ class Genotype {
     }
   }
 
-  String get bloodType => _bloodType;
+  String get bloodType => _toBloodTpe();
 
-  List<String> get alleles => _alleles;
+  List<String> get alleles => _existingAlleles();
 
-  List<String> get agglutinogens => _agglutinogens;
+  List<String> get agglutinogens => _allAgglutinogens();
 
-  List<String> get agglutinins => _agglutinins;
+  List<String> get agglutinins => _allAgglutinins();
 
   @override
   String toString() {
@@ -128,7 +120,7 @@ class Genotype {
       return true;
     } else if (_possibleGenotype == 'AB') {
       return false;
-    } else if (r._agglutinogens.contains(_agglutinogens[0])) {
+    } else if (r.agglutinogens.contains(agglutinogens[0])) {
       return true;
     }
     return status;
