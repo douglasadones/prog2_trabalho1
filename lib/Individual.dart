@@ -1,4 +1,4 @@
-import 'package:main/genotype.dart';
+import 'genotype.dart';
 
 class Individual {
   static int indivNum = 0;
