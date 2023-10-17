@@ -25,10 +25,11 @@ class Genotype {
     }
   }
 
+  _toBloodTpe() => _allGenotypes[_possibleGenotype];
+
   List<String> _existingAlleles() {
     Set<String> singleAlleleSet = {};
     var genoTypeList = _possibleGenotype.split('');
-
     genoTypeList.forEach((element) {
       singleAlleleSet.add(element);
     });
@@ -71,10 +72,6 @@ class Genotype {
     }
   }
 
-  _toBloodTpe() => _allGenotypes[_possibleGenotype];
-
-  String get genotype => _possibleGenotype;
-
   String get bloodType => _bloodType;
 
   List<String> get alleles => _alleles;
@@ -91,7 +88,7 @@ class Genotype {
   List<String> offsprings(Genotype r) {
     List<String> results = [];
     var firstIndiv = _possibleGenotype.split('');
-    var secondIndiv = r.genotype.split('');
+    var secondIndiv = r._possibleGenotype.split('');
     for (var i in firstIndiv) {
       for (var a in secondIndiv) {
         String possible = i + a;
