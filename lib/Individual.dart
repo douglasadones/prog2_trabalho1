@@ -11,10 +11,10 @@ class Individual {
     this._auxName = 'Indiv',
   ]) {
     _genotype = Genotype(_genotypeString);
-    (_auxName == 'Indiv') ? _name = nameGenerator() : _name = _auxName;
+    _name = (_auxName == 'Indiv') ? _nameGenerator() : _auxName;
   }
 
-  String nameGenerator() {
+  String _nameGenerator() {
     indivNum++;
     return '$_auxName$indivNum';
   }

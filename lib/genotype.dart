@@ -16,7 +16,11 @@ class Genotype {
     }
   }
 
-  List<String> _existingAlleles() {
+  String get genotype => _possibleGenotype;
+
+  String get bloodType => _allGenotypes[_possibleGenotype] ?? '';
+
+  List<String> get alleles {
     var singleAlleleSet = <String>{};
     var genoTypeList = _possibleGenotype.split('');
     genoTypeList.forEach((element) {
@@ -25,18 +29,16 @@ class Genotype {
     return singleAlleleSet.toList();
   }
 
-  List<String> _allAgglutinogens() {
+  List<String> get agglutinogens {
     var singleAgglutinogens = <String>[];
-    _possibleGenotype.split('').forEach((element) {
-      if (element != 'i') {
-        singleAgglutinogens.add(element);
-      }
-    });
+    if (bloodType != 'O') {
+      return bloodType.split('');
+    }
     return singleAgglutinogens;
   }
 
-  List<String> _allAgglutinins() {
-    var singleAgglutinins = <String> [];
+  List<String> get agglutinins {
+    var singleAgglutinins = <String>[];
     if (alleles.length == 1) {
       _formatingAgglutinins(alleles, singleAgglutinins);
     } else {
@@ -60,52 +62,26 @@ class Genotype {
     }
   }
 
-  String get bloodType => _allGenotypes[_possibleGenotype] ?? '';
-
-  List<String> get alleles => _existingAlleles();
-
-  List<String> get agglutinogens => _allAgglutinogens();
-
-  List<String> get agglutinins => _allAgglutinins();
-
   @override
   String toString() {
     return _possibleGenotype;
   }
 
   List<String> offsprings(Genotype r) {
-    var results = <String> [];
-    var firstIndiv = _possibleGenotype.split('');
-    var secondIndiv = r._possibleGenotype.split('');
-    for (var i in firstIndiv) {
-      for (var a in secondIndiv) {
-        String possible = i + a;
-        if (!results.contains(possible)) {
-          results.add(possible);
+    var results = <String>[];
+    var firstGenotype = _possibleGenotype.split('');
+    var secondGenotype = r._possibleGenotype.split('');
+
+    for (var i in firstGenotype) {
+      for (var a in secondGenotype) {
+        var possibility = (i + a).split('');
+        possibility.sort();
+        if (!results.contains(possibility.join())) {
+          results.add(possibility.join());
         }
       }
     }
-    return _formatingGenotypeList(results);
-  }
-
-  List<String> _formatingGenotypeList(List<String> r) {
-    var formated = <String> [];
-    r.forEach((element) {
-      switch (element) {
-        case 'iA':
-          formated.add('Ai');
-          break;
-        case 'iB':
-          formated.add('Bi');
-          break;
-        case 'BA':
-          formated.add('AB');
-          break;
-        default:
-          formated.add(element);
-      }
-    });
-    return formated;
+    return results;
   }
 
   bool compatible(Genotype r) {
