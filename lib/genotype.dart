@@ -11,12 +11,14 @@ class Genotype {
   final String _possibleGenotype;
 
   Genotype(this._possibleGenotype) {
+    _validate();
+  }
+
+  void _validate() {
     if (!_allGenotypes.containsKey(_possibleGenotype)) {
       throw 'Bad individual genotype: $_possibleGenotype';
     }
   }
-
-  String get genotype => _possibleGenotype;
 
   String get bloodType => _allGenotypes[_possibleGenotype] ?? '';
 

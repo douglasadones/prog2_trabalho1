@@ -3,8 +3,8 @@ import 'genotype.dart';
 class Individual {
   static int indivNum = 0;
   final String _genotypeString;
-  late final Genotype _genotype;
   final String _auxName;
+  late final Genotype _genotype;
   late final String _name;
   Individual(
     this._genotypeString, [
@@ -25,6 +25,6 @@ class Individual {
 
   @override
   String toString() {
-    return '$_name(${_genotype.bloodType})';
+    return '$_name(${genotype.bloodType})';
   }
 }
